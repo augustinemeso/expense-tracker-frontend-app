@@ -13,39 +13,32 @@ const Register = () => {
     e.preventDefault();
     setError("");
 
-    // Basic validation
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
+        setError("Passwords do not match");
+        return;
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/register", { 
-        email, 
-        password 
-      });
-      
-      // Assuming the backend returns a success message or user data
-      console.log("Registration successful", response.data);
-      
-      // Navigate to login page or directly log in the user
-      navigate("/login");
+        const response = await axios.post("http://127.0.0.1:5001/register", { 
+          
+            email, 
+            password 
+        });
+
+        console.log("Registration successful", response.data);
+        navigate("/login");
     } catch (err) {
-      // Handle different types of errors
-      if (err.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        setError(err.response.data.message || "Registration failed");
-      } else if (err.request) {
-        // The request was made but no response was received
-        setError("No response from server. Please check your connection.");
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        setError("An error occurred during registration");
-      }
-      console.error("Registration error", err);
+        if (err.response) {
+            setError(err.response.data.error || "Registration failed");
+        } else if (err.request) {
+            setError("No response from server. Please check your connection.");
+        } else {
+            setError("An error occurred during registration");
+        }
+        console.error("Registration error", err);
     }
-  };
+};
+
 
   const handleLoginRedirect = () => {
     navigate("/login");
