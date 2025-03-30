@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
+  const [name, setName] = useState(""); // ✅ Add name state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -13,35 +14,39 @@ const Register = () => {
     e.preventDefault();
     setError("");
 
+    if (!name || !email || !password) {
+      setError("All fields are required");
+      return;
+    }
+
     if (password !== confirmPassword) {
-        setError("Passwords do not match");
-        return;
+      setError("Passwords do not match");
+      return;
     }
 
     try {
-        const response = await axios.post("http://127.0.0.1:5001/register", { 
-          
-            email, 
-            password 
-        });
+      const response = await axios.post("https://expense-tracker-backend-1-rhju.onrender.com/register", {
+        name, // ✅ Include name in request
+        email,
+        password,
+      });
 
-        console.log("Registration successful", response.data);
-        navigate("/login");
+      console.log("Registration successful", response.data);
+      navigate("/login");
     } catch (err) {
-        if (err.response) {
-            setError(err.response.data.error || "Registration failed");
-        } else if (err.request) {
-            setError("No response from server. Please check your connection.");
-        } else {
-            setError("An error occurred during registration");
-        }
-        console.error("Registration error", err);
+      if (err.response) {
+        setError(err.response.data.error || "Registration failed");
+      } else if (err.request) {
+        setError("No response from server. Please check your connection.");
+      } else {
+        setError("An error occurred during registration");
+      }
+      console.error("Registration error", err);
     }
-};
-
+  };
 
   const handleLoginRedirect = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -53,8 +58,8 @@ const Register = () => {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Already have an account?{" "}
-            <button 
-              onClick={handleLoginRedirect} 
+            <button
+              onClick={handleLoginRedirect}
               className="font-medium text-blue-600 hover:text-blue-500"
             >
               Log in
@@ -64,20 +69,39 @@ const Register = () => {
         <form className="mt-8 space-y-6" onSubmit={handleRegister}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email" className="sr-only">Email address</label>
+              <label htmlFor="name" className="sr-only">
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="sr-only">
+                Email address
+              </label>
               <input
                 id="email"
                 name="email"
                 type="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">Password</label>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
               <input
                 id="password"
                 name="password"
@@ -90,7 +114,9 @@ const Register = () => {
               />
             </div>
             <div>
-              <label htmlFor="confirm-password" className="sr-only">Confirm Password</label>
+              <label htmlFor="confirm-password" className="sr-only">
+                Confirm Password
+              </label>
               <input
                 id="confirm-password"
                 name="confirm-password"
@@ -105,9 +131,7 @@ const Register = () => {
           </div>
 
           {error && (
-            <div className="text-red-500 text-sm text-center">
-              {error}
-            </div>
+            <div className="text-red-500 text-sm text-center">{error}</div>
           )}
 
           <div>
