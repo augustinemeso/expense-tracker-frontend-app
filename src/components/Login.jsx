@@ -15,12 +15,12 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://127.0.0.1:5001/login", {
+      const response = await axios.post("https://expense-tracker-backend-1-rhju.onrender.com/login", {
         email,
         password,
       });
-      localStorage.setItem("token", response.data.token);
-      navigate("/dashboard");
+      localStorage.setItem("jwt_token", response.data.token);
+      navigate("/expenses");
     } catch (err) {
       setError("Invalid credentials. Please try again.");
     }

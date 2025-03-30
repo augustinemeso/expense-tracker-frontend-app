@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import styles from "../styles/AddExpense.module.css"; // Import CSS Module
+import styles from "./styles/AddExpense.module.css"; // Import CSS Module
 
 const AddExpense = ({ onAdd }) => {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
