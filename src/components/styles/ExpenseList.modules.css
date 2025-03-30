@@ -1,0 +1,63 @@
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .expenseItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .expenseItem:last-child {
+    border-bottom: none;
+  }
+  
+  .amount {
+    font-weight: bold;
+    color: #3b82f6;
+  }
+  
+  .description {
+    flex: 1;
+    margin-left: 10px;
+  }
+  
+  .button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .editButton {
+    background-color: #f59e0b;
+    color: white;
+  }
+  
+  .editButton:hover {
+    background-color: #d97706;
+  }
+  
+  .deleteButton {
+    background-color: #ef4444;
+    color: white;
+  }
+  
+  .deleteButton:hover {
+    background-color: #dc2626;
+  }
+  
