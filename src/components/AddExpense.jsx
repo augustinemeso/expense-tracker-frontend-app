@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import styles from "./styles/AddExpense.module.css"; // Import CSS Module
+import { useNavigate } from "react-router-dom";
 
 const AddExpense = ({ onAdd }) => {
+  const navigate = useNavigate();
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
 
@@ -9,20 +10,21 @@ const AddExpense = ({ onAdd }) => {
     e.preventDefault();
     if (!amount || !description) return;
 
-    const newExpense = { id: Date.now(), amount, description };
-    onAdd(newExpense);
-    setAmount("");
-    setDescription("");
+    onAdd({ amount: Number(amount), description });
+
+    // Redirect to the expenses list after adding
+    navigate("/expenses");
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.formContainer}>
-        <h2 className={styles.title}>Add Expense</h2>
-        <form onSubmit={handleSubmit}>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Add Expense</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="number"
-            className={styles.inputField}
+            step="100"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder="Amount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
@@ -30,13 +32,16 @@ const AddExpense = ({ onAdd }) => {
           />
           <input
             type="text"
-            className={styles.inputField}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
           />
-          <button type="submit" className={`${styles.button} ${styles.buttonPrimary}`}>
+          <button
+            type="submit"
+            className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition"
+          >
             Add Expense
           </button>
         </form>
