@@ -1,23 +1,36 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const EditExpenses = ({ onUpdate }) => {
-  const location = useLocation();
+const EditExpenses = ({ onUpdate, expenses }) => {
   const navigate = useNavigate();
-  const expense = location.state?.expense || { id: null, amount: "", description: "" };
+  const { id } = useParams();
 
-  const [amount, setAmount] = useState(expense.amount);
-  const [description, setDescription] = useState(expense.description);
+  // ✅ Find the expense (Check if it exists)
+  const expense = expenses.find((exp) => exp.id === Number(id));
+
+  // ✅ Handle case where expense is not found
+  useEffect(() => {
+    if (!expense) {
+      navigate("/expenses"); // Redirect if expense doesn't exist
+    }
+  }, [expense, navigate]);
+
+  const [amount, setAmount] = useState(expense?.amount || "");
+  const [description, setDescription] = useState(expense?.description || "");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!amount || !description) return;
+    if (!amount || !description || !expense) return; // ✅ Prevent error if expense is missing
 
     onUpdate({ id: expense.id, amount: Number(amount), description });
 
-    // Redirect to the expenses list after updating
-    navigate("/expenses");
+    navigate("/expenses"); // ✅ Redirect after updating
   };
+
+  // ✅ Show loading if expense is not found
+  if (!expense) {
+    return <h2 className="text-center text-red-500">Expense Not Found</h2>;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -43,7 +56,7 @@ const EditExpenses = ({ onUpdate }) => {
           />
           <button
             type="submit"
-            className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition"
+            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
           >
             Update Expense
           </button>
