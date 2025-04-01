@@ -18,7 +18,7 @@ const Login = () => {
 
       if (response.data.token) {
         localStorage.setItem("jwt_token", response.data.token);
-        navigate("/expenses"); // ✅ Redirect to expenses page after login
+        navigate("/expenses"); 
       } else {
         setError("Login failed. Please try again.");
       }

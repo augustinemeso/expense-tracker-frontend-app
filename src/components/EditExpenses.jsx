@@ -5,13 +5,11 @@ const EditExpenses = ({ onUpdate, expenses }) => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // ✅ Find the expense (Check if it exists)
   const expense = expenses.find((exp) => exp.id === Number(id));
 
-  // ✅ Handle case where expense is not found
   useEffect(() => {
     if (!expense) {
-      navigate("/expenses"); // Redirect if expense doesn't exist
+      navigate("/expenses"); 
     }
   }, [expense, navigate]);
 
@@ -20,14 +18,13 @@ const EditExpenses = ({ onUpdate, expenses }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!amount || !description || !expense) return; // ✅ Prevent error if expense is missing
+    if (!amount || !description || !expense) return; 
 
     onUpdate({ id: expense.id, amount: Number(amount), description });
 
-    navigate("/expenses"); // ✅ Redirect after updating
+    navigate("/expenses"); 
   };
 
-  // ✅ Show loading if expense is not found
   if (!expense) {
     return <h2 className="text-center text-red-500">Expense Not Found</h2>;
   }

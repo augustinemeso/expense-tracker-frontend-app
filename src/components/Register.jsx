@@ -26,7 +26,7 @@ const Register = () => {
       }
 
       console.log("User registered successfully:", data);
-      navigate("/login"); // ✅ Redirect to login after success
+      navigate("/login"); 
     } catch (err) {
       setError(err.message);
     }

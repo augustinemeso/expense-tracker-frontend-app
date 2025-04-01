@@ -4,15 +4,13 @@ import { useNavigate } from "react-router-dom";
 const ExpenseList = ({ expenses, onDelete }) => {
   const navigate = useNavigate();
 
-  // Logout function
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Assuming authentication uses localStorage
-    navigate("/"); // Redirect to login
+    localStorage.removeItem("token"); 
+    navigate("/"); 
   };
 
   return (
     <div className="p-8 relative min-h-screen">
-      {/* Header with Logout Button */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Expense List</h2>
         <button
@@ -23,7 +21,6 @@ const ExpenseList = ({ expenses, onDelete }) => {
         </button>
       </div>
 
-      {/* Expense List */}
       <ul className="space-y-4">
         {expenses.map((expense) => (
           <li key={expense.id} className="flex justify-between items-center bg-white p-4 shadow rounded-lg">
@@ -46,7 +43,6 @@ const ExpenseList = ({ expenses, onDelete }) => {
         ))}
       </ul>
 
-      {/* Add Expense Button (Bottom Left) */}
       <button
         onClick={() => navigate("/add-expense")}
         className="fixed bottom-4 left-4 bg-green-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-green-700 transition"

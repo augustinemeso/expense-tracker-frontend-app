@@ -10,8 +10,8 @@ const AddExpense = ({ onAdd }) => {
     e.preventDefault();
     if (!amount || !description) return;
 
-    onAdd({ amount: Number(amount), description }); // ✅ Call onAdd to update state
-    navigate("/expenses"); // ✅ Redirect after adding
+    onAdd({ amount: Number(amount), description }); 
+    navigate("/expenses"); 
   };
 
   return (
