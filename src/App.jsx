@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -8,12 +8,16 @@ import EditExpenses from "./components/EditExpenses";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  // ✅ Store expenses in state
-  const [expenses, setExpenses] = useState([
-    { id: 1, description: "Groceries", amount: 2000 },
-    { id: 2, description: "Rent", amount: 15000 },
-    { id: 3, description: "Transport", amount: 500 },
-  ]);
+  // ✅ Load expenses from local storage when the app starts
+  const [expenses, setExpenses] = useState(() => {
+    const savedExpenses = localStorage.getItem("expenses");
+    return savedExpenses ? JSON.parse(savedExpenses) : [];
+  });
+
+  // ✅ Save expenses to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+  }, [expenses]);
 
   // ✅ Delete Expense Function
   const handleDelete = (id) => {
